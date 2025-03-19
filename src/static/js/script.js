@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const menu = document.getElementById("menu");
     const overlay = document.createElement("div");
 
-    // オーバーレイ要素を作成
     overlay.classList.add("menu-overlay");
     document.body.appendChild(overlay);
 
@@ -14,14 +13,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // メニューが開いたらオーバーレイの left 位置を調整
         if (menu.classList.contains("open")) {
-            overlay.style.left = `${menu.offsetWidth}px`; // メニューの幅分ずらす
+            overlay.style.left = `${menu.offsetWidth}px`;
             overlay.style.width = `calc(100% - ${menu.offsetWidth}px)`;
         } else {
-            overlay.style.left = "100%"; // 画面外に移動して消す
+            overlay.style.left = "100%";
         }
     }
 
-    // ハンバーガーボタンをクリックで開閉
     menuBtn.addEventListener("click", toggleMenu);
 
     // オーバーレイをクリックしたらメニューを閉じる
