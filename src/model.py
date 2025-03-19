@@ -8,13 +8,13 @@ from src.stella import StellaEmbedder
 class ImageData(BaseModel):
     image_url: str
     description: str
-    named_entity_list: list[str]
+    ocr: list[str]
     description_feats: np.ndarray
 
 
 class InstructionData(BaseModel):
     instruction: str
-    proper_nouns: list[str]
+    ocr: list[str]
     instruction_feats: np.ndarray
 
 
@@ -31,7 +31,7 @@ class Embedder:
         return ImageData(
             image_url=image_url,
             description=english_plain_text_description,
-            named_entity_list=english_named_entity_list,
+            ocr=english_named_entity_list,
             description_feats=description_feats,
         )
 
@@ -41,6 +41,6 @@ class Embedder:
         instruction_feats = self.stella.embed_text(instruction)
         return InstructionData(
             instruction=instruction,
-            proper_nouns=english_proper_noun_list,
+            ocr=english_proper_noun_list,
             instruction_feats=instruction_feats,
         )
