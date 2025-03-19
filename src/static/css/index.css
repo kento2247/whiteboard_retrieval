@@ -9,6 +9,15 @@
     margin-left: 5%;
 }
 
+.content {
+    flex: 1;
+    overflow-y: auto;
+    height: calc(100dvh - 60px);
+    padding-top: 100px;
+    padding-bottom: 100px;
+    margin-bottom: 100px;
+}
+
 
 /* 画像のカルーセル部分 */
 .carousel {
