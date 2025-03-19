@@ -1,21 +1,38 @@
 import numpy as np
+from typing import List
 from pydantic import BaseModel, ConfigDict
+from typing_extensions import Annotated
 
 from mistralai_api import ImageInfo, MistralModel, ProperNouns
 from stella import StellaEmbedder
 
 
+# Custom type for numpy arrays
+class NumpyArrayType:
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        if isinstance(v, np.ndarray):
+            return v
+        raise TypeError("numpy.ndarray required")
+
+
 class ImageData(BaseModel):
     image_path: str
     description: str
-    ocr: list[str]
+    ocr: List[str]
     description_feats: np.ndarray
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 class InstructionData(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
     instruction: str
-    ocr: list[str]
+    ocr: List[str]
     instruction_feats: np.ndarray
     model_config = ConfigDict(arbitrary_types_allowed=True)
 

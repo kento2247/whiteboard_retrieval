@@ -50,7 +50,10 @@ class MistralModel:
                 "role": "user",
                 "content": [
                     {"type": "text", "text": "Describe the image in English."},
-                    {"type": "image_url", "image_url": image_url},
+                    {
+                        "type": "image_url",
+                        "image_url": f"data:image/jpeg;base64,{base64_image}",
+                    },
                 ],
             }
         ]
