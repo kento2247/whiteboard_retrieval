@@ -1,0 +1,123 @@
+.image-text-pair {
+    display: flex;
+    overflow-y: auto;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 90%;
+    overflow: hidden;
+    align-items: center;
+    margin-left: 5%;
+}
+
+.content {
+    flex: 1;
+    overflow-y: auto;
+    height: calc(100dvh - 60px);
+    padding-top: 100px;
+    padding-bottom: 100px;
+    margin-bottom: 100px;
+}
+
+
+/* 画像のカルーセル部分 */
+.carousel {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 50px;
+    width: 100%;
+    padding-bottom: 10px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+
+.carousel img {
+    width: 100%;
+    height: auto;
+    scroll-snap-align: start;
+    border-radius: 5px;
+}
+
+/* 各ブロック */
+.image-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.carousel-indicators .dot {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-indicators .dot.active {
+    background-color: #007bff;
+}
+
+
+/* 説明文 */
+.description {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.search {
+    width: 80%;
+    padding: 10px 0;
+    display: flex;
+    gap: 5px;
+    position: fixed;
+    bottom: 30px;
+    transform: translateX(-50%);
+    left: 50%;
+    background: white;
+    z-index: 500;
+    pointer-events: auto;
+}
+
+.search input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search button {
+    padding: 8px;
+    border: none;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.search button:hover {
+    background: #0056b3;
+}
+
