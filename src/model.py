@@ -1,5 +1,5 @@
 import numpy as np
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from mistralai_api import ImageInfo, MistralModel, ProperNouns
 from stella import StellaEmbedder
@@ -10,12 +10,14 @@ class ImageData(BaseModel):
     description: str
     ocr: list[str]
     description_feats: np.ndarray
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 class InstructionData(BaseModel):
     instruction: str
     ocr: list[str]
     instruction_feats: np.ndarray
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 class Processer:
