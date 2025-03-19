@@ -1,12 +1,12 @@
 import numpy as np
 from pydantic import BaseModel
 
-from src.mistralai_api import ImageInfo, MistralModel, ProperNouns
-from src.stella import StellaEmbedder
+from mistralai_api import ImageInfo, MistralModel, ProperNouns
+from stella import StellaEmbedder
 
 
 class ImageData(BaseModel):
-    image_url: str
+    image_path: str
     description: str
     ocr: list[str]
     description_feats: np.ndarray
@@ -18,18 +18,18 @@ class InstructionData(BaseModel):
     instruction_feats: np.ndarray
 
 
-class Embedder:
+class Processer:
     def __init__(self):
         self.stella = StellaEmbedder()
         self.mistral = MistralModel()
 
-    def process_image(self, image_url: str) -> ImageData:
-        image_info: ImageInfo = self.mistral.describe_image(image_url)
+    def process_image(self, image_path: str) -> ImageData:
+        image_info: ImageInfo = self.mistral.describe_image(image_path)
         english_named_entity_list = image_info.english_named_entity_list
         english_plain_text_description = image_info.english_plain_text_description
         description_feats = self.stella.embed_text(english_plain_text_description)
         return ImageData(
-            image_url=image_url,
+            image_path=image_path,
             description=english_plain_text_description,
             ocr=english_named_entity_list,
             description_feats=description_feats,
@@ -44,3 +44,17 @@ class Embedder:
             ocr=english_proper_noun_list,
             instruction_feats=instruction_feats,
         )
+
+
+if __name__ == "__main__":
+    processer = Processer()
+    image_path = "images/IMG_0569.jpg"
+    instruction = (
+        "対照学習の新規性について数式で議論をしたホワイトボードを検索してください。"
+    )
+
+    image_data = processer.process_image(image_path)
+    instruction_data = processer.process_instruction(instruction)
+
+    print(image_data)
+    print(instruction_data)

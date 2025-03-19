@@ -29,7 +29,8 @@ class MistralModel:
             "model": "mistral-small-latest",
         }
 
-    def ocr(self, image_url: str):
+    def ocr(self, image_url: str) -> str:
+        """OCRを実行し、結果を取得する"""
         pages: OCRResponse = self.client.ocr.process(
             model="mistral-ocr-latest",
             document={
@@ -40,7 +41,10 @@ class MistralModel:
         page: OCRPageObject = pages.pages[0]
         return page.markdown
 
-    def describe_image(self, image_url: str) -> ImageInfo:
+    def describe_image(self, image_path: str) -> ImageInfo:
+        """画像の説明を取得する"""
+        base64_image = self.encode_image(image_path)
+        image_url = f"data:image/jpeg;base64,{base64_image}"
         messages = [
             {
                 "role": "user",
@@ -57,7 +61,7 @@ class MistralModel:
         response_dict = json.loads(response)
         return ImageInfo(**response_dict)
 
-    def encode_image(self, image_path):
+    def encode_image(self, image_path: str) -> str:
         """Encode the image to base64."""
         try:
             with open(image_path, "rb") as image_file:
