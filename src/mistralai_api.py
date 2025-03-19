@@ -7,11 +7,17 @@ from mistralai.models import OCRPageObject, OCRResponse
 from pydantic import BaseModel
 
 
-class DescribedImage(BaseModel):
+class ImageInfo(BaseModel):
     """英語での画像説明を表すクラス"""
 
     english_named_entity_list: list[str]  # 固有表現のリスト
     english_plain_text_description: str  # 画像の説明
+
+
+class ProperNouns(BaseModel):
+    """固有表現を表すクラス"""
+
+    english_proper_noun_list: list[str]
 
 
 class MistralModel:
@@ -34,7 +40,7 @@ class MistralModel:
         page: OCRPageObject = pages.pages[0]
         return page.markdown
 
-    def describe_image(self, image_url: str) -> DescribedImage:
+    def describe_image(self, image_url: str) -> ImageInfo:
         messages = [
             {
                 "role": "user",
@@ -44,12 +50,12 @@ class MistralModel:
                 ],
             }
         ]
-        response = self.client.chat.parse(
-            messages=messages, **self.config, response_format=DescribedImage
-        )
+        config = self.config
+        config["response_format"] = ImageInfo
+        response = self.client.chat.parse(messages=messages, **config)
         response = response.choices[0].message.content
         response_dict = json.loads(response)
-        return DescribedImage(**response_dict)
+        return ImageInfo(**response_dict)
 
     def encode_image(self, image_path):
         """Encode the image to base64."""
@@ -63,9 +69,36 @@ class MistralModel:
             print(f"Error: {e}")
             return None
 
+    def get_proper_nouns(self, instruction: str) -> ProperNouns:
+        """指示文から固有表現を取得する"""
+        prompt = (
+            f"Extract proper nouns from the following text from {instruction}. "
+            "The output must be translated into English."
+        )
+        prompt = [
+            {
+                "role": "user",
+                "content": prompt,
+            },
+        ]
+        config = self.config
+        config["response_format"] = ProperNouns
+        res = self.client.chat.parse(messages=prompt, **config)
+        response = res.choices[0].message.content
+        response_dict = json.loads(response)
+        return ProperNouns(**response_dict)
+
 
 if __name__ == "__main__":
     mistral_model = MistralModel()
+
+    # inst
+    instruction = "対照学習について数式で議論をしたホワイトボードを検索してください。"
+    ne = mistral_model.get_proper_nouns(instruction)
+    print(ne)
+    exit()
+
+    # image
     base64_image = mistral_model.encode_image("images/IMG_0569.jpg")
     image_url = f"data:image/jpeg;base64,{base64_image}"
 

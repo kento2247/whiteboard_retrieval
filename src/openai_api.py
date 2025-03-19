@@ -54,39 +54,6 @@ class OpenaiApiClient:
         response = res.choices[0].message.content
         return response
 
-    def get_image_description(
-        self, image_path: str, ocr_text_list: list[str]
-    ) -> ImageDescription:
-        """画像のパスとOCR結果から画像説明を取得する"""
-        prompt = (
-            "Describe the image in English. "
-            "The output should be translated into English. "
-            "Texts in the image: " + " ".join(ocr_text_list)
-        )
-        base64_image = open(image_path, "rb").read().encode("base64")
-        prompt = [
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": prompt,
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": {"url": f"data:image/png;base64,{base64_image}"},
-                    },
-                ],
-            }
-        ]
-        config = self.config
-        config["response_format"] = ImageDescription
-
-        res = self.client.beta.chat.completions.parse(messages=prompt, **config)
-        response = res.choices[0].message.content
-        return response
-
-
 if __name__ == "__main__":
     client = OpenaiApiClient()
     instruction = "対照学習について数式で議論をしたホワイトボードを検索してください。"
