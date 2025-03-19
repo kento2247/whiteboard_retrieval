@@ -3,7 +3,7 @@ import os
 from mistralai import Mistral
 
 
-class mistral_ocr:
+class MistralOCR:
     def __init__(self):
         self.client = Mistral(api_key=os.environ["MISTRAL_API_KEY"])
 
@@ -19,7 +19,7 @@ class mistral_ocr:
 
 
 if __name__ == "__main__":
-    mistral_ocr = mistral_ocr()
+    mistral_ocr = MistralOCR()
     ocr_response = mistral_ocr.ocr(
         "https://raw.githubusercontent.com/mistralai/cookbook/refs/heads/main/mistral/ocr/receipt.png"
     )
