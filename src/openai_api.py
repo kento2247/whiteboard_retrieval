@@ -21,7 +21,7 @@ class OpenaiApiClient:
 
     def __init__(
         self,
-        model: str = "davinci",
+        model: str = "gpt-4o",
         max_tokens: int = 512,
         n: int = 1,
         stop: str = None,
@@ -89,4 +89,6 @@ class OpenaiApiClient:
 
 if __name__ == "__main__":
     client = OpenaiApiClient()
-    print(client.client.api_key)
+    instruction = "対照学習について数式で議論をしたホワイトボードを検索してください。"
+    ne = client.get_named_entities(instruction)
+    print(ne)
