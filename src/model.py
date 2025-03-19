@@ -23,7 +23,7 @@ class Embedder:
         self.stella = StellaEmbedder()
         self.mistral = MistralModel()
 
-    def process_image(self, image_url) -> ImageData:
+    def process_image(self, image_url: str) -> ImageData:
         image_info: ImageInfo = self.mistral.describe_image(image_url)
         english_named_entity_list = image_info.english_named_entity_list
         english_plain_text_description = image_info.english_plain_text_description
@@ -35,7 +35,7 @@ class Embedder:
             description_feats=description_feats,
         )
 
-    def process_instruction(self, instruction) -> InstructionData:
+    def process_instruction(self, instruction: str) -> InstructionData:
         proper_nouns: ProperNouns = self.mistral.get_proper_nouns(instruction)
         english_proper_noun_list = proper_nouns.english_proper_noun_list
         instruction_feats = self.stella.embed_text(instruction)
