@@ -16,7 +16,7 @@
         <ul>
             <li><a href="/">home</a></li>
             <li><a href="/record">record</a></li>
-            <li><a href="list">list</a></li>
+            <li><a href="/list">list</a></li>
         </ul>
     </nav>
 
@@ -24,49 +24,63 @@
         <div class="back-link">
             <a href="/" id="back-button">← Back to Debates</a>
         </div>
-        
+
         <div id="debate-container" class="loading">
             <div class="spinner"></div>
             <p>Loading debate...</p>
         </div>
-        
+
         <div id="error-container" class="error-message" style="display: none;">
             <p>Failed to load debate details.</p>
             <p id="error-message"></p>
             <p><a href="/">Back to all debates</a></p>
         </div>
-        
+
+        <!-- テンプレート: ここに debate-details がクローンされる -->
         <template id="debate-template">
             <div class="debate-header">
+                <!-- タイトル表示用 -->
                 <h1 id="debate-title">Debate Title</h1>
+                <!-- タイトル編集用 -->
+                <input type="text" id="debate-title-input" style="display: none; width: 100%; font-size: 1.5rem;" />
+
                 <div class="debate-meta">
                     <span class="debate-id">ID: <span id="debate-id"></span></span>
                     <span class="debate-date">Date: <span id="debate-date"></span></span>
                     <span class="debate-score" id="score-badge-container"></span>
                 </div>
             </div>
-            
+
             <div class="debate-content">
                 <div class="debate-image-container">
                     <img id="debate-image" src="" alt="Debate image">
                 </div>
-                
-                <div class="debate-text">
-                    <h2>Summary</h2>
-                    <div id="debate-summary" class="summary-text"></div>
-                    
-                    <h2>Detected Text (OCR)</h2>
-                    <div id="debate-ocr" class="ocr-text"></div>
-                </div>
+
+                <!-- フォーム領域 (タイトルは上に) -->
+                <form id="debate-form" style="width: 100%;">
+                    <div class="debate-text">
+                        <h2>Summary</h2>
+                        <!-- サマリー表示用 -->
+                        <div id="debate-summary" class="summary-text"></div>
+                        <!-- サマリー編集用 -->
+                        <textarea id="debate-summary-input" class="summary-text"
+                            style="display: none; width: 100%; height: 120px;"></textarea>
+
+                        <h2>Detected Text (OCR)</h2>
+                        <!-- OCRは編集不可: 表示のみ -->
+                        <div id="debate-ocr" class="ocr-text"></div>
+                    </div>
+                </form>
             </div>
-            
+
             <div class="debate-actions">
                 <button id="edit-debate" class="action-button">Edit</button>
+                <button id="save-debate" class="action-button" style="display: none;">Save</button>
                 <button id="delete-debate" class="action-button danger">Delete</button>
             </div>
         </template>
     </div>
-    
+
     <script src="/static/js/script.js"></script>
     <script src="/static/js/debate.js"></script>
 </body>
