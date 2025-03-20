@@ -16,9 +16,11 @@ body {
     padding: 30px 5%;
     max-width: 1200px;
     margin: 0 auto;
+    overflow-y: auto;
 }
 
 .back-link {
+<<<<<<< HEAD
     position: fixed;
     top: 15px;
     right: 10px;
@@ -26,6 +28,9 @@ body {
     align-items: center;
     justify-content: flex-end;
     z-index: 1000;
+=======
+    margin: 20px 0;
+>>>>>>> e9c9719e1678427e6cfd63167ffbd5ca40d07ef9
 }
 
 .back-link a {
@@ -139,7 +144,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 @media (max-width: 768px) {
@@ -199,9 +204,14 @@ body {
 /* Debate actions */
 .debate-actions {
     display: flex;
+    justify-content: space-between;
     gap: 15px;
+<<<<<<< HEAD
     margin-top: 30px;
     justify-content: center;
+=======
+    padding: 0 15px;
+>>>>>>> e9c9719e1678427e6cfd63167ffbd5ca40d07ef9
 }
 
 .action-button {
