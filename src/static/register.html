@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>画像アップロード</title>
+    <link rel="stylesheet" href="/static/css/register.css">
+    <link rel="stylesheet" href="/static/css/common.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="menu-btn" id="menu-btn">
+        ☰
+    </div>
+
+    <nav class="menu" id="menu">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/search">Search</a></li>
+            <li><a href="/register">Register</a></li>
+            <li><a href="/record">Record</a></li>
+            <li><a href="/list">List</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <div class="upload-area">
+            <label for="fileInput" class="upload-box">
+                <i class="fa-solid fa-camera"></i>
+                <p>Upload <br> or <br> Take an Image</p>
+            </label>
+            <input type="file" id="fileInput" accept="image/*">
+        </div>
+        <div class="file-list" id="fileList"></div>
+
+        <div class="record-btn-container">
+            <button id="record-btn">Record</button>
+        </div>
+    </div>
+
+    <script src="/static/js/register.js"></script>
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

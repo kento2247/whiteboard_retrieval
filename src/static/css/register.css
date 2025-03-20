@@ -1,0 +1,159 @@
+.content {
+    flex: 1;
+    overflow-y: auto;
+    height: calc(100vh - 50px);
+    padding-top: 70px;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 5%;
+    color: #ddd;
+    background: #121212;
+}
+
+/* アップロードエリア */
+.upload-area {
+    height: 25%;
+    text-align: center;
+    padding: 20px;
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.02);
+}
+
+/* アップロードボックス */
+.upload-box {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: pointer;
+}
+
+.upload-box i {
+    display: block;
+    font-size: 26px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    color: #1e90ff;
+}
+
+.upload-box p {
+    font-size: 16px;
+    margin: 0;
+    line-height: 1.5;
+    color: #bbb;
+}
+
+.upload-area input {
+    display: none;
+}
+
+/* ファイルリスト */
+.file-list {
+    margin-bottom: 10px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    position: relative;
+    padding: 12px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.file-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.02);
+}
+
+/* プレビュー画像 */
+.preview-image {
+    width: 30%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ファイル名 */
+.file-name {
+    flex: 1;
+    color: #ddd;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.delete-btn {
+    display: block;
+    width: 30%;
+    padding: 12px;
+    margin: 10px auto;
+    background: linear-gradient(135deg, #ff4d4d, #d63031);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.delete-btn:hover {
+    background: linear-gradient(135deg, #ff6666, #e84141);
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.delete-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+.record-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#record-btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #4a90e2, #357ABD);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#record-btn:hover {
+    background: linear-gradient(135deg, #5aa1f2, #468cd6);
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+#record-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
