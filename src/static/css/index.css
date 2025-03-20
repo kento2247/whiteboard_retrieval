@@ -214,10 +214,16 @@
 
 header {
     background-color: #f5f5f5;
-    padding: 15px 20px;
+    padding: 60px 20px 10px;
     margin-bottom: 20px;
     border-bottom: 1px solid #ddd;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    word-break: break-word;
 }
+
 
 header h1 {
     font-size: 24px;
