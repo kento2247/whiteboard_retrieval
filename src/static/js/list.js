@@ -1,33 +1,43 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   const imagesContainer = document.querySelector(".images");
 
-  function fetchImageData() {
-    return [
-      { text: "Image 1", src: "/static/uploads/1.jpg" },
-      { text: "Image 2", src: "/static/uploads/2.jpg" },
-      { text: "Image 3", src: "/static/uploads/3.jpg" },
-      { text: "Image 4", src: "/static/uploads/4.jpg" },
-      { text: "Image 5", src: "/static/uploads/5.jpg" },
-    ];
+  async function fetchImageData() {
+    const response = await fetch("/api/debates");
+    const data = await response.json();
+    debates = data.debates;
+    let return_data = [];
+    debates.forEach((item) => {
+      return_data.push({
+        id: item.id,
+        src: item.image_path,
+        text: item.tldr,
+      });
+    });
+    return return_data;
   }
 
   function addImageBlock(data) {
     const blockDiv = document.createElement("div");
     blockDiv.classList.add("image-block");
 
+    const link = document.createElement("a");
+    link.href = `/debate?id=${data.id}`;
+
     const img = document.createElement("img");
     img.src = data.src;
     img.alt = data.text;
-    blockDiv.appendChild(img);
+    link.appendChild(img);
 
     const description = document.createElement("p");
     description.classList.add("description");
     description.textContent = data.text;
-    blockDiv.appendChild(description);
+    link.appendChild(description);
+
+    blockDiv.appendChild(link);
 
     imagesContainer.appendChild(blockDiv);
   }
 
-  const imageData = fetchImageData();
+  const imageData = await fetchImageData();
   imageData.forEach(addImageBlock);
 });
