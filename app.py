@@ -487,15 +487,17 @@ async def search_debates(
             # Find the associated image
             vector_store.cursor.execute(
                 """
-                SELECT image_path FROM image 
+                SELECT image_path, ocr FROM image 
                 WHERE debate_id = ? 
                 ORDER BY id DESC LIMIT 1
             """,
                 (debate_id,),
             )
 
-            image_path_result = vector_store.cursor.fetchone()
-            image_path = image_path_result[0] if image_path_result else None
+            image_path, ocr_text = vector_store.cursor.fetchone()
+
+            # image_path_result = vector_store.cursor.fetchone()
+            # image_path = image_path_result[0] if image_path_result else None
 
             # Normalize image path
             if image_path and image_path.startswith("src/"):
@@ -510,6 +512,7 @@ async def search_debates(
                 query_lower = query.lower()
                 tldr_lower = tldr.lower()
                 summary_lower = (summary or "").lower()
+                ocr_text_lower = ocr_text.lower()
 
                 # Direct matching in title gets high score
                 if query_lower in tldr_lower:
@@ -517,6 +520,14 @@ async def search_debates(
                     score = max(score, direct_match_score)
                     print(
                         f"Direct title match for debate {debate_id}: score {direct_match_score}"
+                    )
+
+                # ocr_text matching
+                elif query_lower in ocr_text_lower:
+                    ocr_match_score = 0.8
+                    score = max(score, ocr_match_score)
+                    print(
+                        f"OCR text match for debate {debate_id}: score {ocr_match_score}"
                     )
 
                 # Partial matching in title
