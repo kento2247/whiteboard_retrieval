@@ -641,4 +641,3 @@ async def get_debate(debate_id: int):
 
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
-        raise HTTPException(status_code=500, detail=str(e))
