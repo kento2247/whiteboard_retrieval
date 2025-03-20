@@ -665,6 +665,9 @@ async def delete_debate(debate_id: int):
         # Delete the debate and associated images
         vector_store.delete_debate(debate_id)
 
+        # Delete the images
+        vector_store.delete_images(debate_id)
+
         return {"message": f"Debate {debate_id} deleted successfully"}
 
     except HTTPException:

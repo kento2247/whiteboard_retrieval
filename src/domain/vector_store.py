@@ -427,6 +427,28 @@ class VectorStore:
         )
         self.conn.commit()
 
+    def delete_images(self, debate_id: int):
+        """Delete all images associated with a debate"""
+        image_path_list = []
+        self.cursor.execute(
+            """
+            SELECT image_path FROM image WHERE debate_id = ?
+        """,
+            (debate_id,),
+        )
+        image_path_list = self.cursor.fetchall()
+        for image_path in image_path_list:
+            if os.path.exists(image_path[0]):
+                os.remove(image_path[0])
+
+        self.cursor.execute(
+            """
+            DELETE FROM image WHERE debate_id = ?
+        """,
+            (debate_id,),
+        )
+        self.conn.commit()
+
     def close(self):
         """Close the database connection and save FAISS index"""
         faiss.write_index(self.index, str(self.db_path.parent / "vectors.faiss"))
