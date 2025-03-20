@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FastAPI Index</title>
+    <title>Record Whiteboard</title>
     <link rel="stylesheet" href="/static/css/common.css">
     <link rel="stylesheet" href="/static/css/record.css">
 </head>
@@ -22,23 +22,49 @@
     </nav>
 
     <div class="content">
-        <div class="title" id="title"></div>
-        <div class="carousel-container">
-            <div class="carousel" id="image-carousel"></div>
-            <div class="carousel-indicators"></div>
-        </div>
-        <h2 id="table-title">OCR</h2>
-        <table id="data-table"></table>
-        <h2 id="textbox-title">Summary</h2>
+        <h1>Record Whiteboard</h1>
         
-        <textarea id="textbox" rows="4" cols="50"></textarea>
-        <div class="button-container">
-            <button id="edit-button">Edit</button>
-            <button id="delete-button">Delete</button>
-        </div>
+        <form id="record-form">
+            <div class="form-group">
+                <label for="title">Title (TLDR):</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="image-source">Image Source:</label>
+                <select id="image-source">
+                    <option value="upload">Upload Image</option>
+                    <option value="camera">Take Photo</option>
+                </select>
+            </div>
+            
+            <div id="upload-container" class="form-group">
+                <label for="image-upload">Upload Image:</label>
+                <input type="file" id="image-upload" name="file" accept="image/*" required>
+                <div id="preview-container" style="display: none;">
+                    <img id="image-preview" src="#" alt="Preview">
+                </div>
+            </div>
+            
+            <div id="camera-container" class="form-group" style="display: none;">
+                <video id="camera-preview" autoplay playsinline></video>
+                <button type="button" id="capture-btn">Capture</button>
+                <canvas id="canvas" style="display: none;"></canvas>
+            </div>
+            
+            <div class="form-group">
+                <label for="text-content">Description:</label>
+                <textarea id="text-content" name="text_content" rows="4"></textarea>
+            </div>
+            
+            <div class="button-container">
+                <button type="submit" id="save-btn">Save</button>
+                <button type="button" id="cancel-btn">Cancel</button>
+            </div>
+        </form>
     </div>
     
     <script src="/static/js/record.js"></script>
     <script src="/static/js/script.js"></script>
 </body>
-</html>
+</html> 

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debate Details</title>
+    <link rel="stylesheet" href="/static/css/common.css">
+    <link rel="stylesheet" href="/static/css/debate.css">
+</head>
+<body>
+    <div class="menu-btn" id="menu-btn">
+        ☰
+    </div>
+
+    <nav class="menu" id="menu">
+        <ul>
+            <li><a href="/">home</a></li>
+            <li><a href="/search">search</a></li>
+            <li><a href="/record">record</a></li>
+            <li><a href="list">list</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <div class="back-link">
+            <a href="/" id="back-button">← Back to Debates</a>
+        </div>
+        
+        <div id="debate-container" class="loading">
+            <div class="spinner"></div>
+            <p>Loading debate...</p>
+        </div>
+        
+        <div id="error-container" class="error-message" style="display: none;">
+            <p>Failed to load debate details.</p>
+            <p id="error-message"></p>
+            <p><a href="/">Back to all debates</a></p>
+        </div>
+        
+        <template id="debate-template">
+            <div class="debate-header">
+                <h1 id="debate-title">Debate Title</h1>
+                <div class="debate-meta">
+                    <span class="debate-id">ID: <span id="debate-id"></span></span>
+                    <span class="debate-date">Date: <span id="debate-date"></span></span>
+                    <span class="debate-score" id="score-badge-container"></span>
+                </div>
+            </div>
+            
+            <div class="debate-content">
+                <div class="debate-image-container">
+                    <img id="debate-image" src="" alt="Debate image">
+                </div>
+                
+                <div class="debate-text">
+                    <h2>Summary</h2>
+                    <div id="debate-summary" class="summary-text"></div>
+                    
+                    <h2>Detected Text (OCR)</h2>
+                    <div id="debate-ocr" class="ocr-text"></div>
+                </div>
+            </div>
+            
+            <div class="debate-actions">
+                <button id="edit-debate" class="action-button">Edit</button>
+                <button id="delete-debate" class="action-button danger">Delete</button>
+            </div>
+        </template>
+    </div>
+    
+    <script src="/static/js/script.js"></script>
+    <script src="/static/js/debate.js"></script>
+</body>
+</html>
