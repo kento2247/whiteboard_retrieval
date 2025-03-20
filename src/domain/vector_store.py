@@ -252,7 +252,7 @@ class VectorStore:
 
         # Search using FAISS - lower distance is better match
         # FAISS search params: x=query_vector, k=k (number of results)
-        distances, indices = self.index.search(x=query_vector, k=k)
+        distances, indices = self.index.search(query_vector, k)
 
         results = []
         for distance, faiss_idx in zip(distances[0], indices[0]):
@@ -415,17 +415,23 @@ class VectorStore:
 
     def delete_debate(self, debate_id: int):
         """Delete a debate and all associated images"""
-        image_path_list = []
         self.cursor.execute(
             """
-            SELECT image_path FROM image WHERE debate_id = ?
+            SELECT id, image_path FROM image WHERE debate_id = ?
         """,
             (debate_id,),
         )
-        image_path_list = self.cursor.fetchall()
-        for image_path in image_path_list:
-            if os.path.exists(image_path[0]):
-                os.remove(image_path[0])
+        image_data = self.cursor.fetchall()
+
+        for image_id, image_path in image_data:
+            faiss_idx = self.image_id_to_faiss[image_id]
+            self.index.remove(faiss_idx)
+            del self.image_id_to_faiss[image_id]
+            del self.image_id_to_text[image_id]
+
+            if os.path.exists(image_path):
+                os.remove(image_path)
+
         self.cursor.execute(
             """
             DELETE FROM image WHERE debate_id = ?
