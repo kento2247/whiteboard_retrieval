@@ -12,6 +12,10 @@ from pydantic import BaseModel
 from src.domain.vector_store import VectorStore
 from src.stella import StellaEmbedder
 
+# Initialize global instances
+embedder = StellaEmbedder()
+vector_store = VectorStore(dimension=1024, db_path="vectors.db")
+
 app = FastAPI()
 
 # Mount the static folder for static assets
@@ -19,10 +23,6 @@ app.mount("/static", StaticFiles(directory="src/static"), name="static")
 
 # Add a specific mount point for uploads to ensure they're accessible
 app.mount("/uploads", StaticFiles(directory="src/static/uploads"), name="uploads")
-
-# Initialize global instances
-embedder = StellaEmbedder()
-vector_store = VectorStore(dimension=1024, db_path="vectors.db")
 
 
 # データモデル（例：画像とテキストペア）
