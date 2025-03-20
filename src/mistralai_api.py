@@ -14,9 +14,10 @@ class ImageInfo(BaseModel):
     english_plain_text_description: str  # 画像の説明
 
 
-class ProperNouns(BaseModel):
-    """固有表現を表すクラス"""
+class InstInfo(BaseModel):
+    """英語での指示文を表すクラス"""
 
+    english_instruction: str  # 英語の指示文
     english_proper_noun_list: list[str]
 
 
@@ -41,7 +42,7 @@ class MistralModel:
         page: OCRPageObject = pages.pages[0]
         return page.markdown
 
-    def describe_image(self, image_path: str) -> ImageInfo:
+    def get_image_info(self, image_path: str) -> ImageInfo:
         """画像の説明を取得する"""
         base64_image = self.encode_image(image_path)
         image_url = f"data:image/jpeg;base64,{base64_image}"
@@ -49,11 +50,11 @@ class MistralModel:
             {
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": "Describe the image in English."},
                     {
-                        "type": "image_url",
-                        "image_url": f"data:image/jpeg;base64,{base64_image}",
+                        "type": "text",
+                        "text": "Describe in detail the content written on the whiteboard.",
                     },
+                    {"type": "image_url", "image_url": image_url},
                 ],
             }
         ]
@@ -76,11 +77,12 @@ class MistralModel:
             print(f"Error: {e}")
             return None
 
-    def get_proper_nouns(self, instruction: str) -> ProperNouns:
+    def get_inst_info(self, instruction: str) -> InstInfo:
         """指示文から固有表現を取得する"""
         prompt = (
-            f"Extract proper nouns from the following text from {instruction}. "
-            "The output must be translated into English."
+            "Translate the following instruction into English and extract all proper nouns. "
+            "Provide the translation and the list of proper nouns in English. "
+            f"instruction: {instruction}"
         )
         prompt = [
             {
@@ -89,11 +91,11 @@ class MistralModel:
             },
         ]
         config = self.config
-        config["response_format"] = ProperNouns
+        config["response_format"] = InstInfo
         res = self.client.chat.parse(messages=prompt, **config)
         response = res.choices[0].message.content
         response_dict = json.loads(response)
-        return ProperNouns(**response_dict)
+        return InstInfo(**response_dict)
 
 
 if __name__ == "__main__":
@@ -101,16 +103,16 @@ if __name__ == "__main__":
 
     # inst
     instruction = "対照学習について数式で議論をしたホワイトボードを検索してください。"
-    ne = mistral_model.get_proper_nouns(instruction)
-    print(ne)
-    exit()
+    instinfo: InstInfo = mistral_model.get_inst_info(instruction)
+    print(instinfo.english_instruction)
+    print(instinfo.english_proper_noun_list)
 
     # image
     base64_image = mistral_model.encode_image("images/IMG_0569.jpg")
     image_url = f"data:image/jpeg;base64,{base64_image}"
 
-    description = mistral_model.describe_image(image_url)
-    english_named_entity_list = description.english_named_entity_list
-    english_plain_text_description = description.english_plain_text_description
+    image_info: ImageInfo = mistral_model.get_image_info(image_url)
+    english_named_entity_list = image_info.english_named_entity_list
+    english_plain_text_description = image_info.english_plain_text_description
     print(english_named_entity_list)
     print(english_plain_text_description)

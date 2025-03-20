@@ -188,7 +188,7 @@ class VectorStore:
             print(f"Processing image with Mistral API...")
             image_data = self.processer.process_image(processing_path)
             print(
-                f"Image processing successful. Description: {image_data.description[:100] if hasattr(image_data, 'description') else 'No description'}..."
+                f"Image processing successful. Description: {image_data.description if hasattr(image_data, 'description') else 'No description'}..."
             )
 
             # Add the image with vector embedding
@@ -413,22 +413,6 @@ class VectorStore:
 
     def delete_debate(self, debate_id: int):
         """Delete a debate and all associated images"""
-        self.cursor.execute(
-            """
-            DELETE FROM image WHERE debate_id = ?
-        """,
-            (debate_id,),
-        )
-        self.cursor.execute(
-            """
-            DELETE FROM debate WHERE id = ?
-        """,
-            (debate_id,),
-        )
-        self.conn.commit()
-
-    def delete_images(self, debate_id: int):
-        """Delete all images associated with a debate"""
         image_path_list = []
         self.cursor.execute(
             """
@@ -440,10 +424,15 @@ class VectorStore:
         for image_path in image_path_list:
             if os.path.exists(image_path[0]):
                 os.remove(image_path[0])
-
         self.cursor.execute(
             """
             DELETE FROM image WHERE debate_id = ?
+        """,
+            (debate_id,),
+        )
+        self.cursor.execute(
+            """
+            DELETE FROM debate WHERE id = ?
         """,
             (debate_id,),
         )

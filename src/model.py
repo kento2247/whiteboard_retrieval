@@ -1,9 +1,9 @@
-import numpy as np
 from typing import List
-from pydantic import BaseModel, ConfigDict
-from typing_extensions import Annotated
 
-from src.mistralai_api import ImageInfo, MistralModel, ProperNouns
+import numpy as np
+from pydantic import BaseModel, ConfigDict
+
+from src.mistralai_api import ImageInfo, InstInfo, MistralModel
 from src.stella import StellaEmbedder
 
 
@@ -43,7 +43,7 @@ class Processer:
         self.mistral = MistralModel()
 
     def process_image(self, image_path: str) -> ImageData:
-        image_info: ImageInfo = self.mistral.describe_image(image_path)
+        image_info: ImageInfo = self.mistral.get_image_info(image_path)
         english_named_entity_list = image_info.english_named_entity_list
         english_plain_text_description = image_info.english_plain_text_description
         description_feats = self.stella.embed_text(english_plain_text_description)
@@ -55,11 +55,13 @@ class Processer:
         )
 
     def process_instruction(self, instruction: str) -> InstructionData:
-        proper_nouns: ProperNouns = self.mistral.get_proper_nouns(instruction)
-        english_proper_noun_list = proper_nouns.english_proper_noun_list
-        instruction_feats = self.stella.embed_text(instruction)
+        inst_info: InstInfo = self.mistral.get_inst_info(instruction)
+        english_instruction = inst_info.english_instruction
+        english_proper_noun_list = inst_info.english_proper_noun_list
+        instruction_feats = self.stella.embed_text(english_instruction)
+
         return InstructionData(
-            instruction=instruction,
+            instruction=english_instruction,
             ocr=english_proper_noun_list,
             instruction_feats=instruction_feats,
         )
@@ -76,4 +78,5 @@ if __name__ == "__main__":
     instruction_data = processer.process_instruction(instruction)
 
     print(image_data)
+    print(instruction_data)
     print(instruction_data)
