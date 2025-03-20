@@ -3,8 +3,8 @@ from typing import List
 from pydantic import BaseModel, ConfigDict
 from typing_extensions import Annotated
 
-from mistralai_api import ImageInfo, MistralModel, ProperNouns
-from stella import StellaEmbedder
+from src.mistralai_api import ImageInfo, MistralModel, ProperNouns
+from src.stella import StellaEmbedder
 
 
 # Custom type for numpy arrays

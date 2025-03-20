@@ -99,6 +99,14 @@
     text-overflow: ellipsis;
 }
 
+.debate-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
 .search {
     width: 90%;
@@ -140,6 +148,12 @@
     border: none;
     background: #00bfff;
     color: white;
+    font-size: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     cursor: pointer;
     border-radius: 8px;
     display: flex;
