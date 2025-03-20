@@ -23,7 +23,8 @@ body {
     left: -250px;
     width: 250px;
     height: 100%;
-    background: rgba(73, 163, 185, 1.0);
+    background: #2C3E50;
+    color: white;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
     transition: left 0.3s ease-in-out;
     z-index: 1000;
@@ -43,7 +44,7 @@ body {
 }
 
 .menu ul li a {
-    color: black;
+    color: #ECF0F1;
     text-decoration: none;
     font-size: 20px;
 }
