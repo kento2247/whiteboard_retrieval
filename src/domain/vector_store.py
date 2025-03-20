@@ -252,12 +252,14 @@ class VectorStore:
 
         # Search using FAISS - lower distance is better match
         # FAISS search params: x=query_vector, k=k (number of results)
-        distances, indices = self.index.search(query_vector, k)
+        distances, indices = self.index.search(x=query_vector, k=k)
 
         results = []
         for distance, faiss_idx in zip(distances[0], indices[0]):
             if faiss_idx < 0:  # FAISS returns -1 for not enough results
                 continue
+
+            faiss_idx = int(faiss_idx)
 
             image_id = self.faiss_to_image_id[faiss_idx]
             self.cursor.execute(
@@ -288,7 +290,7 @@ class VectorStore:
             print(f"Generated query embedding with shape: {query_embedding.shape}")
 
             # Use the standard FAISS search with the query embedding
-            return self.search(query_embedding, k=k)
+            return self.search(query_vector=query_embedding, k=k)
 
         except Exception as e:
             print(f"Error during embedding-based search: {str(e)}")

@@ -3,8 +3,8 @@ from typing import List
 import numpy as np
 from pydantic import BaseModel, ConfigDict
 
-from src.mistralai_api import ImageInfo, InstInfo, MistralModel
-from src.stella import StellaEmbedder
+from mistralai_api import ImageInfo, InstInfo, MistralModel
+from stella import StellaEmbedder
 
 
 # Custom type for numpy arrays
@@ -70,13 +70,10 @@ class Processer:
 if __name__ == "__main__":
     processer = Processer()
     image_path = "images/IMG_0569.jpg"
-    instruction = (
-        "対照学習の新規性について数式で議論をしたホワイトボードを検索してください。"
-    )
+    instruction = "対照学習"
 
     image_data = processer.process_image(image_path)
     instruction_data = processer.process_instruction(instruction)
 
-    print(image_data)
-    print(instruction_data)
-    print(instruction_data)
+    print(image_data.description)
+    print(instruction_data.instruction)
