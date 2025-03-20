@@ -13,7 +13,8 @@ from src.model import Processer
 class VectorStore:
     def __init__(self, dimension: int = 1024, db_path: str = "vectors.db"):
         self.dimension = dimension
-        self.index = faiss.IndexFlatL2(dimension)
+        # self.index = faiss.IndexFlatL2(dimension)
+        self.index = faiss.IndexFlatIP(dimension)
         self.processer = Processer()
 
         self.db_path = Path(db_path)
@@ -91,6 +92,7 @@ class VectorStore:
         self.conn.commit()
 
         # Add the vector to the FAISS index
+        vector /= np.linalg.norm(vector, axis=1, keepdims=True)  # L2ノルムを 1 に正規化
         self.index.add(vector)
         faiss_idx = self.index.ntotal - 1
 
@@ -248,6 +250,10 @@ class VectorStore:
         """Search for similar images and return their details"""
         if isinstance(query_vector, list):
             query_vector = np.array(query_vector, dtype=np.float32)
+
+        query_vector /= np.linalg.norm(
+            query_vector, axis=1, keepdims=True
+        )  # L2ノルムを 1 に正規化
         query_vector = query_vector.reshape(1, -1)
 
         # Search using FAISS - lower distance is better match
