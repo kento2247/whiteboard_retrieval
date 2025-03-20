@@ -2,10 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const imageTextPair = document.querySelector(".image-text-pair");
 
     const dataBlocks = [
-        { text: "Whiteboard1", images: ["/static/images/1.jpg", "/static/images/1.jpg", "/static/images/1.jpg"] },
-        { text: "Whiteboard2", images: ["/static/images/2.jpg", "/static/images/2.jpg", "/static/images/2.jpg"] },
-        { text: "Whiteboard3", images: ["/static/images/3.jpg", "/static/images/3.jpg"] },
-        { text: "Whiteboard4", images: ["/static/images/4.jpg", "/static/images/4.jpg", "/static/images/4.jpg"] }
+        { text: "Whiteboard1", images: ["/static/images/1.jpg", "/static/images/2.jpg", "/static/images/3.jpg"] },
+        { text: "Whiteboard2", images: ["/static/images/2.jpg", "/static/images/3.jpg", "/static/images/4.jpg"] },
+        { text: "Whiteboard3", images: ["/static/images/3.jpg", "/static/images/4.jpg"] },
+        { text: "Whiteboard4", images: ["/static/images/4.jpg", "/static/images/5.jpg", "/static/images/1.jpg"] }
     ];
 
     function addImageBlock(data) {
