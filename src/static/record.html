@@ -14,22 +14,22 @@
 
     <nav class="menu" id="menu">
         <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/search">Search</a></li>
-            <li><a href="/record">Record</a></li>
-            <li><a href="list">List</a></li>
+            <li><a href="/">home</a></li>
+            <li><a href="/search">search</a></li>
+            <li><a href="/record">record</a></li>
+            <li><a href="list">list</a></li>
         </ul>
     </nav>
 
     <div class="content">
         <h1>Record Whiteboard</h1>
-
+        
         <form id="record-form">
             <div class="form-group">
                 <label for="title">Title (TLDR):</label>
                 <input type="text" id="title" name="title" required>
             </div>
-
+            
             <div class="form-group">
                 <label for="image-source">Image Source:</label>
                 <select id="image-source">
@@ -37,7 +37,7 @@
                     <option value="camera">Take Photo</option>
                 </select>
             </div>
-
+            
             <div id="upload-container" class="form-group">
                 <label for="image-upload">Upload Image:</label>
                 <input type="file" id="image-upload" name="file" accept="image/*" required>
@@ -45,26 +45,26 @@
                     <img id="image-preview" src="#" alt="Preview">
                 </div>
             </div>
-
+            
             <div id="camera-container" class="form-group" style="display: none;">
                 <video id="camera-preview" autoplay playsinline></video>
                 <button type="button" id="capture-btn">Capture</button>
                 <canvas id="canvas" style="display: none;"></canvas>
             </div>
-
+            
             <div class="form-group">
                 <label for="text-content">Description:</label>
                 <textarea id="text-content" name="text_content" rows="4"></textarea>
             </div>
-
+            
             <div class="button-container">
                 <button type="submit" id="save-btn">Save</button>
                 <button type="button" id="cancel-btn">Cancel</button>
             </div>
         </form>
     </div>
-
+    
     <script src="/static/js/record.js"></script>
     <script src="/static/js/script.js"></script>
 </body>
-</html>
+</html> 
