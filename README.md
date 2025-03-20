@@ -12,11 +12,10 @@ poetry install
 
 ## env
 ```sh
-OPENAI_API_KEY=
 MISTRAL_API_KEY=
 ```
 
 ## run
 ```sh
-uvicorn app:app --host 0.0.0.0 --port 8000 
+uvicorn app:app --host 0.0.0.0 --port 8000 --reload
 ```
