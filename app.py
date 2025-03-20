@@ -641,3 +641,75 @@ async def get_debate(debate_id: int):
 
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.delete("/api/debate/{debate_id}")
+async def delete_debate(debate_id: int):
+    try:
+        print(f"Deleting debate ID: {debate_id}")
+
+        # Check if debate exists
+        vector_store.cursor.execute(
+            """
+            SELECT id FROM debate WHERE id = ?
+        """,
+            (debate_id,),
+        )
+
+        debate = vector_store.cursor.fetchone()
+        if not debate:
+            raise HTTPException(
+                status_code=404, detail=f"Debate with ID {debate_id} not found"
+            )
+
+        # Delete the debate and associated images
+        vector_store.delete_debate(debate_id)
+
+        return {"message": f"Debate {debate_id} deleted successfully"}
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Error deleting debate: {str(e)}")
+        import traceback
+
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.put("/api/debate/{debate_id}")
+async def update_debate(debate_id: int, request: DebateRequest):
+    """
+    tldr, summaryを更新する
+    summaryに応じてembeddingもし直す
+    """
+    try:
+        print(f"Updating debate ID: {debate_id}")
+
+        # Check if debate exists
+        vector_store.cursor.execute(
+            """
+            SELECT id FROM debate WHERE id = ?
+        """,
+            (debate_id,),
+        )
+
+        debate = vector_store.cursor.fetchone()
+        if not debate:
+            raise HTTPException(
+                status_code=404, detail=f"Debate with ID {debate_id} not found"
+            )
+
+        # Update the debate
+        vector_store.update_debate(debate_id, request.tldr, request.summary)
+
+        return {"message": f"Debate {debate_id} updated successfully"}
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Error updating debate: {str(e)}")
+        import traceback
+
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
