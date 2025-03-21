@@ -435,7 +435,7 @@ async def search_debates(
         try:
             # Use embedding-based vector search with cosine similarity
             print("Performing embedding-based search...")
-            search_results = vector_store.search_by_text(
+            query, search_results = vector_store.search_by_text(
                 query, k=20
             )  # Increase k to get more potential matches
             print(f"Search returned {len(search_results)} results")

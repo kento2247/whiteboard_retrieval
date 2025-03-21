@@ -7,7 +7,7 @@ from typing import List, Optional, Tuple
 import faiss
 import numpy as np
 
-from src.model import Processer
+from src.model import ImageData, InstructionData, Processer
 
 
 class VectorStore:
@@ -290,20 +290,27 @@ class VectorStore:
 
         try:
             # Embed the query text using Stella via the Processer
-            query_embedding = self.processer.process_instruction(
+            instruction_data: InstructionData = self.processer.process_instruction(
                 query_text
-            ).instruction_feats
+            )
+            translated_instruction = instruction_data.instruction
+            query_embedding = instruction_data.instruction_feats
+            print(f"Translated instruction: {translated_instruction}")
             print(f"Generated query embedding with shape: {query_embedding.shape}")
 
             # Use the standard FAISS search with the query embedding
-            return self.search(query_vector=query_embedding, k=k)
+            return translated_instruction, self.search(
+                query_vector=query_embedding, k=k
+            )
 
         except Exception as e:
             print(f"Error during embedding-based search: {str(e)}")
             print("Falling back to text-based matching...")
 
             # Fall back to simple text matching if embedding fails
-            return self._text_based_search_fallback(query_text, k)
+            return translated_instruction, self._text_based_search_fallback(
+                translated_instruction, k
+            )
 
     def _text_based_search_fallback(
         self, query_text: str, k: int = 5
@@ -431,7 +438,7 @@ class VectorStore:
 
         for image_id, image_path in image_data:
             faiss_idx = self.image_id_to_faiss[image_id]
-            self.index.remove(faiss_idx)
+            # self.index.remove(faiss_idx)
             del self.image_id_to_faiss[image_id]
             del self.image_id_to_text[image_id]
 

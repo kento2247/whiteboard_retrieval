@@ -55,8 +55,8 @@ async function performAPISearch(query) {
 
     // Call the search API with minimum score of 0.01 to filter out irrelevant results
     // We can optionally include all results by adding &include_all=true
-    const minimum_score = 0.001; // Only include results with some relevance
-    const include_all = false; // Don't include all debates by default
+    const minimum_score = 0.0; // Only include results with some relevance
+    const include_all = true; // Don't include all debates by default
 
     const url = `/api/search-debates?query=${encodeURIComponent(
       query
