@@ -1,4 +1,5 @@
-# whiteboard_retrieval
+# MEMOSHIRO: 自然言語に基づくWhiteboard画像検索
+smilab mini hackathon 2025
 
 ## setup
 ```sh
